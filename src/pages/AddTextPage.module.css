@@ -1,0 +1,73 @@
+.pageContainer {
+  max-width: 700px;
+  margin: auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.formGroup textarea {
+  min-height: 200px;
+  resize: vertical;
+}
+
+.fileInputWrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  background-color: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.fileInputWrapper:hover {
+  border-color: var(--primary);
+  background-color: #333;
+}
+
+.fileInputWrapper input[type="file"] {
+  display: none; /* Hide the default input */
+}
+
+.fileInputLabel {
+  color: var(--text-secondary);
+}
+
+.fileName {
+  color: var(--primary);
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cancelButton {
+  background-color: var(--surface);
+  color: var(--text-primary);
+}
+
+.cancelButton:hover {
+  background-color: #3c3c3c;
+}

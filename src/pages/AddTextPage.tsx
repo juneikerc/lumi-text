@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../db/db';
+import styles from './AddTextPage.module.css';
 
 const AddTextPage: React.FC = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [textFile, setTextFile] = useState<File | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const navigate = useNavigate();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setTextFile(file);
       const reader = new FileReader();
       reader.onload = (e) => {
         const text = e.target?.result as string;
         setContent(text);
         if (!title) {
-            setTitle(file.name.replace(/\.txt$/, ''));
+          setTitle(file.name.replace(/\.txt$/, ''));
         }
       };
       reader.readAsText(file);
     }
   };
 
-    const handleAudioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAudioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setAudioFile(file);
@@ -52,44 +55,42 @@ const AddTextPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles.pageContainer}>
       <h1>Add New Text</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor='title'>Title</label>
+          <input type="text" id='title' value={title} onChange={(e) => setTitle(e.target.value)} required />
         </div>
-        <div>
-          <label htmlFor="content">Content</label>
-          <textarea
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            rows={15}
-            cols={80}
-            required
-          />
+
+        <div className={styles.formGroup}>
+          <label htmlFor='content'>Content</label>
+          <textarea id='content' value={content} onChange={(e) => setContent(e.target.value)} required />
         </div>
-        <div>
-            <label htmlFor='file'>Or upload a .txt file</label>
+
+        <div className={styles.formGroup}>
+          <label htmlFor='file' className={styles.fileInputWrapper}>
+            <span className={styles.fileInputLabel}>Click to upload a .txt file</span>
             <input type="file" id='file' accept=".txt" onChange={handleFileChange} />
+            {textFile && <p className={styles.fileName}>{textFile.name}</p>}
+          </label>
         </div>
-        <div>
-            <label htmlFor='audio'>Associate an audio file</label>
+
+        <div className={styles.formGroup}>
+          <label htmlFor='audio' className={styles.fileInputWrapper}>
+            <span className={styles.fileInputLabel}>Click to associate an audio file</span>
             <input type="file" id='audio' accept="audio/*" onChange={handleAudioChange} />
+            {audioFile && <p className={styles.fileName}>{audioFile.name}</p>}
+          </label>
         </div>
-        <button type="submit">Add Text</button>
+
+        <div className={styles.actions}>
+          <button type="button" className={styles.cancelButton} onClick={() => navigate('/')}>Cancel</button>
+          <button type="submit">Add Text</button>
+        </div>
       </form>
-      <button onClick={() => navigate('/')}>Cancel</button>
     </div>
   );
 };
 
 export default AddTextPage;
-

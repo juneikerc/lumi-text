@@ -4,6 +4,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import Word from '../components/Word/Word';
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
+import styles from './ReaderPage.module.css';
 
 const ReaderPage: React.FC = () => {
   const audioInputRef = React.useRef<HTMLInputElement>(null);
@@ -45,31 +46,36 @@ const ReaderPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <Link to="/">Back to Library</Link>
-      <h1>{text.title}</h1>
-      {audioSrc && <AudioPlayer audioUrl={audioSrc} />}
-      <button onClick={() => audioInputRef.current?.click()}>Add/Change Audio</button>
-      <input
-        type="file"
-        accept="audio/*"
-        ref={audioInputRef}
-        onChange={handleAudioFileChange}
-        style={{ display: 'none' }}
-      />
-      <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.8', marginTop: '20px' }}>
+    <div className={styles.pageContainer}>
+      <header className={styles.header}>
+        <Link to="/">← Back to Library</Link>
+        <h1>{text.title}</h1>
+        <div className={styles.headerActions}>
+          <div className={styles.audioSection}>
+            {audioSrc && <AudioPlayer audioUrl={audioSrc} />}
+            <button onClick={() => audioInputRef.current?.click()} className={styles.addAudioButton}>
+              {audioSrc ? 'Change Audio' : 'Add Audio'}
+            </button>
+            <input
+              type="file"
+              accept="audio/*"
+              ref={audioInputRef}
+              onChange={handleAudioFileChange}
+              style={{ display: 'none' }}
+            />
+          </div>
+        </div>
+      </header>
+      <main className={styles.content}>
         {wordsAndSpaces.map((segment, index) => {
           if (segment.trim() === '') {
-            // It's a space or newline
             return <span key={index}>{segment}</span>;
           }
-          // It's a word
           return <Word key={index} word={segment} />;
         })}
-      </div>
+      </main>
     </div>
   );
 };
 
 export default ReaderPage;
-

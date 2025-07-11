@@ -8,11 +8,10 @@ interface WordPopupProps {
 }
 
 const WordPopup: React.FC<WordPopupProps> = ({ word, onClose }) => {
+  const normalizedWord = word.trim().toLowerCase().replace(/[^a-z'-]+$/, '');
+  const lemma = normalizedWord;
   const [translation, setTranslation] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-
-  // Normalize the word to use as a key
-  const lemma = word.trim().toLowerCase().replace(/[^a-z'-]+$/, '');
 
   useEffect(() => {
     const fetchTranslation = async () => {
@@ -45,13 +44,25 @@ const WordPopup: React.FC<WordPopupProps> = ({ word, onClose }) => {
   };
 
   return (
-    <div className={styles.popup} onClick={onClose}> {/* Click outside to close */}
-      <div className={styles.popupContent} onClick={(e) => e.stopPropagation()}> {/* Prevent closing when clicking inside */}
-        <h3>{word}</h3>
-        <p>{isLoading ? 'Translating...' : translation}</p>
-        <button onClick={() => handleStatusUpdate('known')} disabled={isLoading}>I know this</button>
-        <button onClick={() => handleStatusUpdate('unknown')} disabled={isLoading}>I don't know this</button>
-        <button onClick={onClose} className={styles.closeButton}>×</button>
+    <div className={styles.popupOverlay} onClick={onClose}>
+      <div className={styles.popupContent} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.closeButton} onClick={onClose}>&times;</button>
+        <h2 className={styles.wordTitle}>{normalizedWord}</h2>
+        <p className={styles.translation}>{translation || 'Translating...'}</p>
+        <div className={styles.actions}>
+          <button 
+            className={`${styles.statusButton} ${styles.knownButton}`}
+            onClick={() => handleStatusUpdate('known')}
+          >
+            Mark as Known
+          </button>
+          <button 
+            className={`${styles.statusButton} ${styles.unknownButton}`}
+            onClick={() => handleStatusUpdate('unknown')}
+          >
+            Mark as Unknown
+          </button>
+        </div>
       </div>
     </div>
   );

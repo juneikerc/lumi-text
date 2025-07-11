@@ -1,13 +1,17 @@
 .word {
   cursor: pointer;
   transition: background-color 0.2s;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: -2px -4px; /* Counteract padding to maintain flow */
 }
 
 .word:hover {
-  background-color: #f0f0f0;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .unknown {
-  background-color: #ffcccc; /* Un rojo suave para las desconocidas */
-  color: #a60000;
+  background-color: rgba(255, 184, 77, 0.2);
+  color: #ffb84d;
+  border-bottom: 1px solid rgba(255, 184, 77, 0.5);
 }

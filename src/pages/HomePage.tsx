@@ -1,7 +1,8 @@
 import React from 'react';
-import { useLiveQuery } from 'dexie-react-hooks';
 import { Link } from 'react-router-dom';
+import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
+import styles from './HomePage.module.css';
 
 const HomePage: React.FC = () => {
   const texts = useLiveQuery(() => db.texts.toArray());
@@ -18,27 +19,39 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Lumi Text</h1>
-      <Link to="/add-text">
-        <button>Add New Text</button>
-      </Link>
-      <Link to="/review">
-        <button style={{ marginLeft: '10px' }}>Review Words</button>
-      </Link>
+    <div className={styles.pageContainer}>
+      <header className={styles.header}>
+        <h1>Lumi Text</h1>
+        <div className={styles.actions}>
+          <Link to="/add-text">
+            <button>Add New Text</button>
+          </Link>
+          <Link to="/review">
+            <button>Review Words</button>
+          </Link>
+        </div>
+      </header>
+      
       <h2>My Library</h2>
-      <ul>
-        {texts?.map(text => (
-          <li key={text.id}>
-            <Link to={`/reader/${text.id}`}>{text.title}</Link>
-            <button onClick={() => handleDelete(text.id!)} style={{ marginLeft: '10px' }}>Delete</button>
-          </li>
-        ))}
-      </ul>
-      {texts?.length === 0 && <p>Your library is empty. Add a new text to get started!</p>}
+      
+      {texts && texts.length > 0 ? (
+        <ul className={styles.textList}>
+          {texts.map(text => (
+            <li key={text.id} className={styles.textItem}>
+              <Link to={`/reader/${text.id}`} className={styles.textTitle}>{text.title}</Link>
+              <div className={styles.textActions}>
+                <button onClick={() => handleDelete(text.id!)} className={styles.deleteButton}>Delete</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className={styles.emptyMessage}>
+          <p>Your library is empty. Add a new text to get started!</p>
+        </div>
+      )}
     </div>
   );
 };
 
 export default HomePage;
-
