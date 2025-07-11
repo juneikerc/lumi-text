@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import styles from './HomePage.module.css';
+import ResourceCard from '../components/ResourceCard/ResourceCard';
 
 const HomePage: React.FC = () => {
   const texts = useLiveQuery(() => db.texts.toArray());
@@ -31,6 +32,8 @@ const HomePage: React.FC = () => {
           </Link>
         </div>
       </header>
+
+      <ResourceCard />
       
       <h2>My Library</h2>
       

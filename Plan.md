@@ -6,9 +6,7 @@
 
 Crear una aplicación web ligera y enfocada, diseñada para ayudar a hispanohablantes a mejorar su inglés a través de la lectura. El objetivo es transformar cualquier texto digital en una herramienta de aprendizaje interactiva, eliminando la necesidad de usar traductores externos y permitiendo al usuario construir un vocabulario personalizado de forma orgánica y eficiente.
 
-La aplicación funciona 100% en el navegador del cliente, garantizando una experiencia rápida, privada y disponible sin conexión a internet.
-
----
+## La aplicación funciona 100% en el navegador del cliente, garantizando una experiencia rápida, privada y disponible sin conexión a internet.
 
 ## **Características Principales**
 
