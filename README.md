@@ -57,7 +57,7 @@ Lumi Text está diseñado para ser una herramienta ligera, gratuita y centrada e
 
 Si decides que necesitas estas características avanzadas, puedes apoyar el desarrollo de Lumi Text utilizando nuestro enlace de afiliado para registrarte en LingQ.
 
-**[👉 ¡Potencia tu aprendizaje con LingQ! (Pega tu enlace de afiliado aquí)](https://www.lingq.com/)**
+**[👉 ¡Potencia tu aprendizaje con LingQ!](https://www.lingq.com/)**
 
 ---
 
