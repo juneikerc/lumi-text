@@ -38,16 +38,11 @@ const AddTextPage: React.FC = () => {
     }
 
     try {
-      let audioUrl: string | undefined = undefined;
-      if (audioFile) {
-        audioUrl = URL.createObjectURL(audioFile);
-      }
-
       const id = await db.texts.add({
         title,
         content,
         createdAt: new Date(),
-        audioUrl,
+        audioData: audioFile || undefined,
       });
       navigate(`/reader/${id}`); // Navigate to the new text's reader page
     } catch (error) {

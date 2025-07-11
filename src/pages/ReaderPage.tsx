@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
@@ -7,8 +7,8 @@ import AudioPlayer from '../components/AudioPlayer/AudioPlayer';
 
 const ReaderPage: React.FC = () => {
   const audioInputRef = React.useRef<HTMLInputElement>(null);
-
   const { textId } = useParams<{ textId: string }>();
+  const [audioSrc, setAudioSrc] = useState<string | null>(null);
 
   const text = useLiveQuery(() => {
     if (!textId) return undefined;
@@ -16,20 +16,19 @@ const ReaderPage: React.FC = () => {
   }, [textId]);
 
   useEffect(() => {
-    const validateAudioUrl = async () => {
-      if (text?.audioUrl && text.audioUrl.startsWith('blob:')) {
-        try {
-          await fetch(text.audioUrl);
-        } catch {
-          // Blob URL is invalid, so we clear it from the DB
-          console.warn('Stale audioUrl detected and removed.');
-          await db.texts.update(text.id!, { audioUrl: '' });
-        }
-      }
-    };
+    if (text?.audioData) {
+      const url = URL.createObjectURL(text.audioData);
+      setAudioSrc(url);
 
-    validateAudioUrl();
-  }, [text]);
+      return () => {
+        URL.revokeObjectURL(url);
+      };
+    } else {
+      setAudioSrc(null);
+    }
+  }, [text?.audioData]);
+
+
 
   if (!text) {
     return <div>Loading text... or text not found.</div>;
@@ -41,8 +40,7 @@ const ReaderPage: React.FC = () => {
   const handleAudioFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && text?.id) {
-      const audioUrl = URL.createObjectURL(file);
-      await db.texts.update(text.id, { audioUrl });
+      await db.texts.update(text.id, { audioData: file });
     }
   };
 
@@ -50,7 +48,7 @@ const ReaderPage: React.FC = () => {
     <div>
       <Link to="/">Back to Library</Link>
       <h1>{text.title}</h1>
-      {text.audioUrl && <AudioPlayer audioUrl={text.audioUrl} />}
+      {audioSrc && <AudioPlayer audioUrl={audioSrc} />}
       <button onClick={() => audioInputRef.current?.click()}>Add/Change Audio</button>
       <input
         type="file"

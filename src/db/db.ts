@@ -5,7 +5,7 @@ export interface Text {
   id?: number;
   title: string;
   content: string;
-  audioUrl?: string; // Guardaremos la URL temporal del audio aquí
+  audioData?: Blob; // Guardaremos el audio aquí
   createdAt: Date;
 }
 
