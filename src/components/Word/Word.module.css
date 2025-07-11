@@ -1,0 +1,13 @@
+.word {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.word:hover {
+  background-color: #f0f0f0;
+}
+
+.unknown {
+  background-color: #ffcccc; /* Un rojo suave para las desconocidas */
+  color: #a60000;
+}
