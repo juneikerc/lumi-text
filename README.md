@@ -4,7 +4,7 @@
 
 **Lumi Text es una alternativa gratuita y de código abierto a plataformas como [LingQ](https://www.lingq.com/), diseñada para transformar la lectura en inglés en una herramienta de aprendizaje interactiva y personalizada. Aprende a tu ritmo, con el contenido que te interesa y con total privacidad.**
 
-**[🔗 Accede a la aplicación en vivo en lumitext.pages.dev](https://lumitext.pages.dev)**
+**[🔗 Accede a la aplicación en vivo en lumitext.pages.dev](https://lumi-text.pages.dev/)**
 
 ---
 
