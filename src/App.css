@@ -15,19 +15,21 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: var(--background);
   color: var(--text-primary);
   line-height: 1.6;
 }
 
 #root {
-  max-width: 800px;
   margin: 40px auto;
   padding: 2rem;
+  width: 100%;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: var(--text-primary);
   margin-bottom: 1rem;
 }

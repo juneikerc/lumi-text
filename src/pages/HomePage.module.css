@@ -1,6 +1,8 @@
 .pageContainer {
   display: flex;
   flex-direction: column;
+  max-width: 924px;
+  margin: 0 auto;
 }
 
 .header {
