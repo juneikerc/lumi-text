@@ -1,5 +1,5 @@
 .popupContainer {
-  position: absolute;
+  position: fixed;
   background-color: #ffffff;
   padding: 12px 16px;
   border-radius: 8px;
@@ -9,7 +9,10 @@
   min-width: 250px;
   max-width: 350px;
   z-index: 1000;
-  transform: translate(-50%, 10px);
+  top: 10px;
+  left: 50%;
+
+  /* transform: translate(-50%, 10px); */
 }
 
 .wordTitle {
