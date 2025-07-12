@@ -1,28 +1,15 @@
-.popupOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.popupContainer {
+  position: absolute;
+  background-color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e2e8f0;
+  width: auto;
+  min-width: 250px;
+  max-width: 350px;
   z-index: 1000;
-}
-
-.popupContent {
-  background: var(--surface);
-  padding: 2rem;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  position: relative;
-  width: 90%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  transform: translate(-50%, 10px);
 }
 
 .wordTitle {
@@ -34,8 +21,9 @@
 
 .translation {
   font-size: 1.2rem;
-  color: var(--text-primary);
-  min-height: 30px; /* Avoid layout shift while loading */
+
+  min-height: 30px;
+  color: var(--dark-text);
 }
 
 .actions {
@@ -52,35 +40,38 @@
 }
 
 .knownButton {
-  background-color: #2a4a3a;
-  color: #82e0aa;
+  background-color: #48bb78;
+  border: 1px solid #38a169;
+  color: var(--white-text);
 }
 
 .knownButton:hover {
-  background-color: #3a6a4a;
+  background-color: #38a169;
 }
 
 .unknownButton {
-  background-color: #4f2d2d;
-  color: #ff8f8f;
+  background-color: #f56565;
+  border: 1px solid #e53e3e;
+  color: var(--white-text);
 }
 
 .unknownButton:hover {
-  background-color: #6e3f3f;
+  background-color: #e53e3e;
 }
 
 .closeButton {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
+  top: 8px;
+  right: 8px;
+  background: transparent;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1;
   cursor: pointer;
-  color: var(--text-secondary);
-  transition: color 0.2s;
+  color: #a0aec0;
+  padding: 4px;
 }
 
 .closeButton:hover {
-  color: var(--text-primary);
+  color: #4a5568;
 }

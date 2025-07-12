@@ -22,11 +22,12 @@ El objetivo de Lumi Text es ayudar a hispanohablantes a mejorar su vocabulario y
 ## ✨ Características Principales
 
 - **📚 Biblioteca Personalizada**: Sube tus propios archivos `.txt` o simplemente pega texto para crear tu propia biblioteca de lectura. Aprende con artículos, libros o letras de canciones que realmente te gusten.
-- **👆 Lectura Interactiva**: Cada palabra del texto es clickeable. Al hacer clic, obtienes la traducción al español al instante.
+- **👆 Traducción Dual (Palabra y Frase)**: La lectura es totalmente interactiva.
+  - **Clic en una palabra**: Obtén su traducción y márcala al instante como "conocida" o "desconocida" para añadirla a tu vocabulario.
+  - **Selecciona una frase**: ¿No entiendes una expresión completa? Simplemente arrastra el cursor para seleccionarla y obtendrás su traducción al momento.
 - **🧠 Sistema de Vocabulario Inteligente**:
-  - Marca cada palabra como "Conocida" o "Desconocida".
-  - Las palabras desconocidas se resaltan visualmente en todos tus textos para reforzar el aprendizaje.
-  - Revisa tu lista de vocabulario en la página de "Repaso".
+  - Las palabras que marques como "desconocidas" se resaltarán visualmente en todos tus textos para reforzar el aprendizaje pasivo.
+  - Repasa y gestiona todo tu vocabulario guardado desde la página de "Repaso".
 - **🎧 Sincronización con Audio**: Asocia un archivo de audio a cualquier texto para practicar tu _listening_ y _pronunciation_ mientras lees.
 - **⚙️ Lector Personalizable**:
   - Ajusta el **tamaño de la fuente** y el **ancho del área de lectura** para una máxima comodidad.

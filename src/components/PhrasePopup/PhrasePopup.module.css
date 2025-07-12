@@ -1,0 +1,32 @@
+.popupContainer {
+  position: absolute;
+  background-color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e2e8f0;
+  width: auto;
+  min-width: 280px;
+  max-width: 400px;
+  z-index: 1000;
+  transform: translate(-50%, 10px);
+}
+
+.selectedText {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2d3748;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 8px;
+}
+
+.translation {
+  font-size: 1rem;
+  color: #4a5568;
+  margin-top: 8px;
+}
+
+.loading {
+  color: #a0aec0;
+}

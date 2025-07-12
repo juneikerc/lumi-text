@@ -1,72 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './WordPopup.module.css';
-import { useWords } from '../../hooks/useWords';
 
 interface WordPopupProps {
   word: string;
+  position: { top: number; left: number };
   onClose: () => void;
+  onMarkAsKnown: (word: string) => void;
+  onMarkAsUnknown: (word: string) => void;
 }
 
-const WordPopup: React.FC<WordPopupProps> = ({ word, onClose }) => {
+const WordPopup: React.FC<WordPopupProps> = ({ word, position, onClose, onMarkAsKnown, onMarkAsUnknown }) => {
   const normalizedWord = word.trim().toLowerCase().replace(/[^a-z'-]+$/, '');
   const lemma = normalizedWord;
   const [translation, setTranslation] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const popupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fetchTranslation = async () => {
-      if (!lemma) return;
+    if (lemma) {
       setIsLoading(true);
-      try {
-        const response = await fetch(`https://api.mymemory.translated.net/get?q=${lemma}&langpair=en|es`);
-        const data = await response.json();
-        if (data.responseData) {
-          setTranslation(data.responseData.translatedText);
-        } else {
-          setTranslation('No translation found.');
-        }
-      } catch (error) {
-        console.error('Translation fetch error:', error);
-        setTranslation('Failed to fetch translation.');
-      }
-      setIsLoading(false);
-    };
-
-    fetchTranslation();
+      fetch(`https://api.mymemory.translated.net/get?q=${lemma}&langpair=en|es`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.responseData) {
+            setTranslation(data.responseData.translatedText);
+          } else {
+            setTranslation('No translation found.');
+          }
+        })
+        .catch(error => {
+          console.error('Translation error:', error);
+          setTranslation('Translation failed.');
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   }, [lemma]);
 
-    const { updateWordStatus } = useWords();
-
-  const handleStatusUpdate = async (status: 'known' | 'unknown') => {
-    if (isLoading) return;
-    await updateWordStatus(lemma, status, translation);
-    onClose();
+  // Prevent clicks inside the popup from closing it
+  const handlePopupClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
   };
 
-  return (
-    <div className={styles.popupOverlay} onClick={onClose}>
-      <div className={styles.popupContent} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose}>&times;</button>
-        <h2 className={styles.wordTitle}>{normalizedWord}</h2>
-        <p className={styles.translation}>{translation || 'Translating...'}</p>
-        <div className={styles.actions}>
-          <button 
-            className={`${styles.statusButton} ${styles.knownButton}`}
-            onClick={() => handleStatusUpdate('known')}
-          >
-            Mark as Known
-          </button>
-          <button 
-            className={`${styles.statusButton} ${styles.unknownButton}`}
-            onClick={() => handleStatusUpdate('unknown')}
-          >
-            Mark as Unknown
-          </button>
-        </div>
+  if (!lemma) return null;
+
+    return (
+    <div
+      className={styles.popupContainer}
+      style={{ top: position.top, left: position.left }}
+      ref={popupRef}
+      onClick={handlePopupClick}
+    >
+      <h3 className={styles.wordTitle}>{normalizedWord}</h3>
+      {isLoading ? (
+        <p className={styles.loading}>Translating...</p>
+      ) : (
+        <p className={styles.translation}>{translation}</p>
+      )}
+      <div className={styles.actions}>
+        <button onClick={() => onMarkAsKnown(lemma)} className={styles.knownButton}>
+          Known
+        </button>
+        <button onClick={() => onMarkAsUnknown(lemma)} className={styles.unknownButton}>
+          Unknown
+        </button>
       </div>
+      <button onClick={onClose} className={styles.closeButton}>×</button>
     </div>
   );
 };
 
 export default WordPopup;
-

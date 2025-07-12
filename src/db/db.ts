@@ -10,9 +10,9 @@ export interface Text {
 }
 
 export interface Word {
-  lemma: string; // La palabra en su forma base (ej: "run" para "running")
-  status: "unknown" | "known";
-  translation: string;
+  lemma: string; // The base form of the word
+  status: 'known' | 'unknown';
+  translation?: string;
 }
 
 export class MySubClassedDexie extends Dexie {
