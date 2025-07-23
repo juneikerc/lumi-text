@@ -26,25 +26,64 @@ const WordPopup: React.FC<WordPopupProps> = ({
   const popupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Para cancelar el fetch si el componente se desmonta o lemma cambia
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     if (lemma) {
+      // 1. Establecer isLoading a true al inicio para ambas ramas
       setIsLoading(true);
-      fetch(`https://api.mymemory.translated.net/get?q=${lemma}&langpair=en|es`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.responseData) {
-            setTranslation(data.responseData.translatedText);
-          } else {
-            setTranslation("No translation found.");
+
+      if ("Translator" in self) {
+        const translateWithChromeAPI = async () => {
+          try {
+            // @ts-expect-error Translator is a new Chrome API not in TS types yet
+            const translator = await Translator.create({
+              sourceLanguage: "en",
+              targetLanguage: "es",
+            });
+            const result = await translator.translate(lemma);
+            setTranslation(result);
+          } catch (error) {
+            console.error("Chrome Translation API error:", error);
+            setTranslation("Translation failed.");
+          } finally {
+            setIsLoading(false);
           }
-        })
-        .catch((error) => {
-          console.error("Translation error:", error);
-          setTranslation("Translation failed.");
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+        };
+
+        translateWithChromeAPI();
+      } else {
+        // Branch de fallback con fetch
+        fetch(
+          `https://api.mymemory.translated.net/get?q=${lemma}&langpair=en|es`,
+          { signal } // 2. Pasar el signal al fetch
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.responseData) {
+              setTranslation(data.responseData.translatedText);
+            } else {
+              setTranslation("No translation found.");
+            }
+          })
+          .catch((error) => {
+            // Ignorar errores de cancelación
+            if (error.name !== "AbortError") {
+              console.error("Translation error:", error);
+              setTranslation("Translation failed.");
+            }
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      }
     }
+
+    // 3. Función de limpieza para cancelar la petición
+    return () => {
+      controller.abort();
+    };
   }, [lemma]);
 
   // Prevent clicks inside the popup from closing it
