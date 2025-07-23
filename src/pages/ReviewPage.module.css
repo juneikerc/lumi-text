@@ -45,3 +45,19 @@
   text-align: center;
   color: var(--text-secondary);
 }
+
+.deleteButton {
+  background-color: transparent;
+  border: 1px solid var(--danger, #ef4444);
+  color: var(--danger, #ef4444);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: var(--danger, #ef4444);
+  color: white;
+}

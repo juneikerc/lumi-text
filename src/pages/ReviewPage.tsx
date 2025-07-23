@@ -9,6 +9,16 @@ const ReviewPage: React.FC = () => {
     db.words.where('status').equals('unknown').toArray()
   , []);
 
+  // Función para eliminar una palabra
+  const handleDeleteWord = async (lemma: string) => {
+    try {
+      // 'lemma' es la clave primaria, así que podemos usar delete
+      await db.words.delete(lemma);
+    } catch (error) {
+      console.error("Failed to delete word:", error);
+    }
+  };
+
   // Handle loading state while the query is running
   if (!unknownWords) {
     return (
@@ -36,6 +46,12 @@ const ReviewPage: React.FC = () => {
             <div key={word.lemma} className={styles.wordItem}>
               <span className={styles.wordLemma}>{word.lemma}</span>
               <span className={styles.wordTranslation}>{word.translation}</span>
+              <button 
+                onClick={() => handleDeleteWord(word.lemma)} 
+                className={styles.deleteButton}
+              >
+                Delete
+              </button>
             </div>
           ))}
         </div>
